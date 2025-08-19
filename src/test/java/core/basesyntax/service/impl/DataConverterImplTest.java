@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import core.basesyntax.model.FruitTransaction;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,13 +14,9 @@ class DataConverterImplTest {
     private static ArrayList<String> inputList = new ArrayList<>();
     private static DataConverterImpl dataConverter;
 
-    @BeforeAll
-    static void beforeAll() {
-        dataConverter = new DataConverterImpl();
-    }
-
     @BeforeEach
     void setUp() {
+        dataConverter = new DataConverterImpl();
         inputList.clear();
         inputList.add("type,fruit,quantity");
         inputList.add("b,banana,20");
@@ -30,7 +25,6 @@ class DataConverterImplTest {
 
     @Test
     void validData() {
-
         FruitTransaction one = new FruitTransaction();
         one.setFruit("banana");
         one.setQuantity(20);

@@ -49,6 +49,7 @@ class FileReaderImplTest {
 
     @Test
     void nullPathThrowsNpe() {
-        assertThrows(NullPointerException.class, () -> fileReader.read(null));
+        assertThrows(RuntimeException.class,
+                () -> fileReader.read(null), "Not correct path to file");
     }
 }

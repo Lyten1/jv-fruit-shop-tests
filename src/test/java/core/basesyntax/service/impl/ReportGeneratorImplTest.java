@@ -4,7 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import core.basesyntax.db.Storage;
 import core.basesyntax.service.ReportGenerator;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class ReportGeneratorImplTest {
@@ -12,7 +14,16 @@ class ReportGeneratorImplTest {
 
     @BeforeAll
     static void beforeAll() {
+        Storage.getShopStorage().clear();
+    }
+
+    @BeforeEach
+    void setUp() {
         reportGenerator = new ReportGeneratorImpl();
+    }
+
+    @AfterEach
+    void tearDown() {
         Storage.getShopStorage().clear();
     }
 
