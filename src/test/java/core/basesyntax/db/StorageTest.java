@@ -3,19 +3,13 @@ package core.basesyntax.db;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 class StorageTest {
 
-    @BeforeEach
-    void setUp() {
-        Storage.getShopStorage().clear();
-    }
-
-    @AfterAll
-    static void afterAll() {
+    @AfterEach
+    void tearDown() {
         Storage.getShopStorage().clear();
     }
 
