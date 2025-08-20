@@ -55,7 +55,7 @@ class FileReaderImplTest {
 
     @Test
     void nullPathTest_NotOk() {
-        assertThrows(RuntimeException.class,
-                () -> fileReader.read(null), "Not correct path to file");
+        assertThrows(IllegalArgumentException.class,
+                () -> fileReader.read(null), "Path must not be null");
     }
 }

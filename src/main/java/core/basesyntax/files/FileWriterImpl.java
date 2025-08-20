@@ -8,6 +8,9 @@ public class FileWriterImpl implements FileWriter {
 
     @Override
     public void write(String text, String fileName) {
+        if (fileName == null) {
+            throw new IllegalArgumentException("Path must not be null");
+        }
         try {
             Files.write(Path.of(fileName), text.getBytes());
         } catch (IOException e) {

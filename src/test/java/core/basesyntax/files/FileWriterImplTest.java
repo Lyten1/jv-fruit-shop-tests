@@ -26,11 +26,11 @@ class FileWriterImplTest {
 
     @Test
     void nullPathTest_NotOk() {
-        assertThrows(NullPointerException.class, () -> fileWriter.write("text", null));
+        assertThrows(IllegalArgumentException.class, () -> fileWriter.write("text", null));
     }
 
     @Test
-    void wirteToFileWithCorrectData_Ok() throws IOException {
+    void writeToFileWithCorrectData_Ok() throws IOException {
         Path file = tempDir.resolve("out.txt");
         String text = "hello, world";
 
