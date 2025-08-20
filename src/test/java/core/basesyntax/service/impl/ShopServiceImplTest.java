@@ -51,11 +51,10 @@ class ShopServiceImplTest {
     @BeforeEach
     void setUp() {
         shopService = new ShopServiceImpl(operationStrategy);
-        Storage.getShopStorage().clear();
     }
 
     @Test
-    void testProcessTransactions() {
+    void processTransactionsWithValidData_Ok() {
         shopService.process(fruitTransactionsList);
         int bananasExpected = 107;
         int applesExpected = 30;

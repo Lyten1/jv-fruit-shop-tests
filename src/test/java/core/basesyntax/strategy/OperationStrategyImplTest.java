@@ -38,37 +38,37 @@ class OperationStrategyImplTest {
     }
 
     @Test
-    void throwsOnNullOperation() {
+    void nullOperationTest_NotOk() {
         assertThrows(IllegalArgumentException.class, () -> strategy.get(null));
     }
 
     @Test
-    void throwsOnNotExistingOperation() {
+    void notExistingOperationTest_NotOk() {
         operationHandlers.clear();
         assertThrows(IllegalArgumentException.class,
                 () -> strategy.get(FruitTransaction.Operation.SUPPLY));
     }
 
     @Test
-    void testGettingAmountFromBalanceOperation() {
+    void testGettingAmountFromBalanceOperation_Ok() {
         OperationHandler operationHandler = strategy.get(FruitTransaction.Operation.BALANCE);
         assertEquals(20, operationHandler.getStock(20));
     }
 
     @Test
-    void testGettingAmountFromSupplyOperation() {
+    void testGettingAmountFromSupplyOperation_Ok() {
         OperationHandler operationHandler = strategy.get(FruitTransaction.Operation.SUPPLY);
         assertEquals(20, operationHandler.getStock(20));
     }
 
     @Test
-    void testGettingAmountFromReturnOperation() {
+    void testGettingAmountFromReturnOperation_Ok() {
         OperationHandler operationHandler = strategy.get(FruitTransaction.Operation.RETURN);
         assertEquals(20, operationHandler.getStock(20));
     }
 
     @Test
-    void testGettingAmountFromPurchaseOperation() {
+    void testGettingAmountFromPurchaseOperation_Ok() {
         OperationHandler operationHandler = strategy.get(FruitTransaction.Operation.PURCHASE);
         assertEquals(-20, operationHandler.getStock(20));
     }

@@ -9,22 +9,28 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 class FileWriterImplTest {
-    private final FileWriter fileWriter = new FileWriterImpl();
+    private FileWriter fileWriter;
 
     @TempDir
     private Path tempDir;
 
+    @BeforeEach
+    void setUp() {
+        fileWriter = new FileWriterImpl();
+    }
+
     @Test
-    void nullPathThrowsNpe() {
+    void nullPathTest_NotOk() {
         assertThrows(NullPointerException.class, () -> fileWriter.write("text", null));
     }
 
     @Test
-    void writesContent_createsFile() throws IOException {
+    void wirteToFileWithCorrectData_Ok() throws IOException {
         Path file = tempDir.resolve("out.txt");
         String text = "hello, world";
 
@@ -35,7 +41,7 @@ class FileWriterImplTest {
     }
 
     @Test
-    void overwritesExistingFile() throws IOException {
+    void overwritesExistingFileTest_Ok() throws IOException {
         Path file = tempDir.resolve("out.txt");
         Files.write(file, List.of("old"));
         String text = "new content";
@@ -46,7 +52,7 @@ class FileWriterImplTest {
     }
 
     @Test
-    void tryingWriteToDirectoryTrowsRuntimeException() throws IOException {
+    void writingToDirectory_NotOk() throws IOException {
         Path dir = tempDir.resolve("aDir");
         Files.createDirectories(dir);
 

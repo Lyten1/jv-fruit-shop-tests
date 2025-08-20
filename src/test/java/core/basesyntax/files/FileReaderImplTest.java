@@ -10,23 +10,29 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 class FileReaderImplTest {
-    private final FileReader fileReader = new FileReaderImpl();
+    private FileReader fileReader;
 
     @TempDir
     private Path tempDir;
 
+    @BeforeEach
+    void setUp() {
+        fileReader = new FileReaderImpl();
+    }
+
     @Test
-    void throwRuntimeException() {
+    void notExistingInputFileTest_NotOk() {
         Path notExist = tempDir.resolve("none.csv");
         assertThrows(RuntimeException.class, () -> fileReader.read(notExist.toString()));
     }
 
     @Test
-    void readsAllLinesWhenFileExists() throws IOException {
+    void readsAllLinesWhenFileExists_Ok() throws IOException {
         Path file = tempDir.resolve("input.csv");
         List<String> expected = List.of("type,fruit,quantity", "b,banana,20", "b,apple,100");
         Files.write(file, expected, StandardOpenOption.CREATE_NEW);
@@ -37,7 +43,7 @@ class FileReaderImplTest {
     }
 
     @Test
-    void emptyFileReturnsEmptyList() throws IOException {
+    void emptyFileAsInput_Ok() throws IOException {
         Path file = tempDir.resolve("empty.csv");
         Files.createFile(file);
 
@@ -48,7 +54,7 @@ class FileReaderImplTest {
     }
 
     @Test
-    void nullPathThrowsNpe() {
+    void nullPathTest_NotOk() {
         assertThrows(RuntimeException.class,
                 () -> fileReader.read(null), "Not correct path to file");
     }

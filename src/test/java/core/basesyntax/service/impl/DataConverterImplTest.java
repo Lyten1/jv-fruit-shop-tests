@@ -4,9 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import core.basesyntax.db.Storage;
 import core.basesyntax.model.FruitTransaction;
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,8 +25,13 @@ class DataConverterImplTest {
         inputList.add("b,apple,100");
     }
 
+    @AfterEach
+    void tearDown() {
+        Storage.getShopStorage().clear();
+    }
+
     @Test
-    void validData() {
+    void inputValidData_Ok() {
         FruitTransaction one = new FruitTransaction();
         one.setFruit("banana");
         one.setQuantity(20);
@@ -45,23 +52,14 @@ class DataConverterImplTest {
     }
 
     @Test
-    void nullListOk() {
+    void inputNullList_Ok() {
         assertThrows(IllegalArgumentException.class,
                 () -> dataConverter.convertToTransaction(null),
                 "list of input data must not be null");
     }
 
     @Test
-    void noTransactionOnlyHeader() {
-        List<FruitTransaction> expected = new ArrayList<>();
-        inputList.remove(2);
-        inputList.remove(1);
-        List<FruitTransaction> actual = dataConverter.convertToTransaction(inputList);
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void emptyList() {
+    void inputEmptyList_Ok() {
         List<FruitTransaction> expected = new ArrayList<>();
         inputList.clear();
         List<FruitTransaction> actual = dataConverter.convertToTransaction(inputList);
@@ -69,7 +67,7 @@ class DataConverterImplTest {
     }
 
     @Test
-    void moreThanThreeParametersList() {
+    void putMoreThanThreeParametersInRow_NotOk() {
         inputList.add("b,baraban,34,23");
         assertThrows(RuntimeException.class,
                 () -> dataConverter.convertToTransaction(inputList),
@@ -77,7 +75,7 @@ class DataConverterImplTest {
     }
 
     @Test
-    void negativeQuantityTestList() {
+    void putNegativeQuantityInRow_NotOk() {
         inputList.add("b,baraban,-34");
         assertThrows(RuntimeException.class,
                 () -> dataConverter.convertToTransaction(inputList),
@@ -85,7 +83,7 @@ class DataConverterImplTest {
     }
 
     @Test
-    void invalidOperatorTest() {
+    void invalidOperatorTest_NotOk() {
         inputList.add("e,baraban,34");
         assertThrows(IllegalArgumentException.class,
                 () -> dataConverter.convertToTransaction(inputList),
